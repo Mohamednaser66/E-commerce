@@ -1,5 +1,8 @@
 import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
+import 'package:ecommerce_app/features/auth/data/models/RegisterRequest.dart';
+import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -10,8 +13,39 @@ import '../../../../core/resources/values_manager.dart';
 import '../../../../core/widget/main_text_field.dart';
 import '../../../../core/widget/validators.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController = TextEditingController();
+    _phoneController = TextEditingController();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _nameController.dispose();
+    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +66,7 @@ class SignUpScreen extends StatelessWidget {
                   height: AppSize.s40.h,
                 ),
                 BuildTextField(
+                  controller: _nameController,
                   backgroundColor: ColorManager.white,
                   hint: 'enter your full name',
                   label: 'Full Name',
@@ -42,6 +77,7 @@ class SignUpScreen extends StatelessWidget {
                   height: AppSize.s18.h,
                 ),
                 BuildTextField(
+                  controller: _phoneController,
                   hint: 'enter your mobile no.',
                   backgroundColor: ColorManager.white,
                   label: 'Mobile Number',
@@ -52,6 +88,7 @@ class SignUpScreen extends StatelessWidget {
                   height: AppSize.s18.h,
                 ),
                 BuildTextField(
+                  controller: _emailController,
                   hint: 'enter your email address',
                   backgroundColor: ColorManager.white,
                   label: 'E-mail address',
@@ -62,6 +99,7 @@ class SignUpScreen extends StatelessWidget {
                   height: AppSize.s18.h,
                 ),
                 BuildTextField(
+                  controller: _passwordController,
                   hint: 'enter your password',
                   backgroundColor: ColorManager.white,
                   label: 'password',
@@ -75,14 +113,24 @@ class SignUpScreen extends StatelessWidget {
                 Center(
                   child: SizedBox(
                     height: AppSize.s60.h,
-                    width: MediaQuery.of(context).size.width * .9,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * .9,
                     child: CustomElevatedButton(
                       // borderRadius: AppSize.s8,
                       label: 'Sign Up',
                       backgroundColor: ColorManager.white,
                       textStyle: getBoldStyle(
                           color: ColorManager.primary, fontSize: AppSize.s20),
-                      onTap: () {},
+                      onTap: () {
+                        BlocProvider.of<AuthCubit>(context).register(
+                            RegisterRequest(name: _nameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                rePassword: _passwordController.text,
+                                phone: _phoneController.text));
+                      },
                     ),
                   ),
                 ),
