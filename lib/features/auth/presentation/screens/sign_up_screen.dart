@@ -21,11 +21,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  late final TextEditingController _nameController;
 
-  late TextEditingController _nameController;
-  late TextEditingController _phoneController;
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
+  late final TextEditingController _phoneController;
+
+  late final TextEditingController _emailController;
+
+  late final TextEditingController _passwordController;
 
   @override
   void initState() {
@@ -113,10 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 Center(
                   child: SizedBox(
                     height: AppSize.s60.h,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * .9,
+                    width: MediaQuery.of(context).size.width * .9,
                     child: CustomElevatedButton(
                       // borderRadius: AppSize.s8,
                       label: 'Sign Up',
@@ -125,7 +124,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorManager.primary, fontSize: AppSize.s20),
                       onTap: () {
                         BlocProvider.of<AuthCubit>(context).register(
-                            RegisterRequest(name: _nameController.text,
+                            RegisterRequest(
+                                name: _nameController.text,
                                 email: _emailController.text,
                                 password: _passwordController.text,
                                 rePassword: _passwordController.text,

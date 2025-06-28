@@ -1,5 +1,5 @@
 class RegisterRequest {
-  const RegisterRequest({
+  RegisterRequest({
       required this.name,
       required this.email,
       required this.password,
@@ -7,7 +7,7 @@ class RegisterRequest {
       required this.phone,});
 
 
- final  String name;
+  final String name;
   final String email;
   final String password;
   final String rePassword;
@@ -24,4 +24,3 @@ class RegisterRequest {
   }
 
 }
-

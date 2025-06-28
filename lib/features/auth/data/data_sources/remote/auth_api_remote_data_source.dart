@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:ecommerce_app/core/resources/constants_manager.dart';
 import 'package:ecommerce_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart';
@@ -19,8 +21,9 @@ class AuthApiRemoteDataSource implements AuthRemoteDataSource {
   }
 
   @override
-  Future<LoginResponse> login(LoginRequest request)async {
-    final response = await _dio.post(ApiConstant.loginEndPoint, data:request.toJson() );
+  Future<LoginResponse> login(LoginRequest request) async {
+    final response =
+        await _dio.post(ApiConstant.loginEndPoint, data: request.toJson());
     return LoginResponse.fromJson(response.data);
   }
 }
