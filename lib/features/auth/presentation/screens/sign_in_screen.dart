@@ -5,16 +5,41 @@ import 'package:ecommerce_app/core/routes_manager/routes.dart';
 import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
 import 'package:ecommerce_app/core/widget/main_text_field.dart';
 import 'package:ecommerce_app/core/widget/validators.dart';
+import 'package:ecommerce_app/features/auth/data/models/LoginRequest.dart';
+import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/resources/font_manager.dart';
 import '../../../../core/resources/styles_manager.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +72,7 @@ class SignInScreen extends StatelessWidget {
                   height: AppSize.s50.h,
                 ),
                 BuildTextField(
+                  controller: _emailController,
                   backgroundColor: ColorManager.white,
                   hint: 'enter your name',
                   label: 'User name',
@@ -57,6 +83,7 @@ class SignInScreen extends StatelessWidget {
                   height: AppSize.s28.h,
                 ),
                 BuildTextField(
+                  controller: _passwordController,
                   hint: 'enter your password',
                   backgroundColor: ColorManager.white,
                   label: 'Password',
@@ -85,17 +112,43 @@ class SignInScreen extends StatelessWidget {
                 Center(
                   child: SizedBox(
                     // width: MediaQuery.of(context).size.width * .8,
-                    child: CustomElevatedButton(
-                      // borderRadius: AppSize.s8,
-                      isStadiumBorder: false,
-                      label: 'Login',
-                      backgroundColor: ColorManager.white,
-                      textStyle: getBoldStyle(
-                          color: ColorManager.primary, fontSize: AppSize.s18),
-                      onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, Routes.mainRoute, (route) => false);
+                    child: BlocListener<AuthCubit, AuthState>(
+                      listener: (context, state){
+                        if (state is LoginLoading) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          );
+                        } else if (state is LoginError) {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Text(state.error),
+                            ),
+                          );
+                        } else if (state is LoginSuccess) {
+                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(
+                              context, Routes.mainRoute);
+                        }
                       },
+                      child: CustomElevatedButton(
+                        // borderRadius: AppSize.s8,
+                        isStadiumBorder: false,
+                        label: 'Login',
+                        backgroundColor: ColorManager.white,
+                        textStyle: getBoldStyle(
+                            color: ColorManager.primary, fontSize: AppSize.s18),
+                        onTap: () {
+                         BlocProvider.of<AuthCubit>(context).login(LoginRequest(email: _emailController.text
+                             , password: _passwordController.text));
+                        },
+                      ),
                     ),
                   ),
                 ),

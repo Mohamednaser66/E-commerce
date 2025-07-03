@@ -1,38 +1,67 @@
+import 'package:ecommerce_app/core/error/exception.dart';
+import 'package:ecommerce_app/features/auth/data/models/LoginRequest.dart';
 import 'package:ecommerce_app/features/auth/data/models/RegisterRequest.dart';
 import 'package:ecommerce_app/features/auth/data/models/User.dart';
-import 'package:ecommerce_app/features/auth/data/repositories/auth_repository.dart';
+import 'package:ecommerce_app/features/auth/domain/repositories/auth_repository.dart';
+import 'package:ecommerce_app/features/auth/domain/usecases/auth_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+@injectable
+class AuthCubit extends Cubit<AuthState> {
+  @factoryMethod
+  AuthCubit(this._authUseCase,) : super(AuthInitial());
+  final AuthUseCase _authUseCase;
 
-class AuthCubit extends Cubit<AuthState>{
-  AuthCubit(this._authRepository):super(AuthInitial());
- final  AuthRepository _authRepository;
 
-  register(RegisterRequest request)async{
-
-
-    try{
-      emit(AuthLoading());
-      User user = await _authRepository.register(request);
-      emit(AuthSuccess(user: user));
-    }catch(error){
-      emit(AuthError(error: error.toString()));
-    }
+  void register(RegisterRequest request) async {
+    emit(RegisterLoading());
+    var result = await _authUseCase.invokeRegister(request);
+    result.fold((failure) {
+      emit(RegisterError(error: failure.message));
+    }, (user) {
+      emit(RegisterSuccess(user: user));
+    },);
   }
 
+  void login(LoginRequest request) async {
+    emit(LoginLoading());
+   var result =await  _authUseCase.invokeLogin(request);
+   result.fold((failure) {
+     emit(LoginError(failure.message));
+   }, (user) {
+     emit(LoginSuccess(user));
+   },);
+  }
 }
 
-sealed class AuthState{
+sealed class AuthState {}
 
-}
-class AuthInitial extends AuthState{}
-class AuthLoading extends AuthState{
+class AuthInitial extends AuthState {}
 
-}
-class AuthSuccess extends AuthState{
+class RegisterLoading extends AuthState {}
+
+class RegisterSuccess extends AuthState {
   User user;
-  AuthSuccess({required this.user});
+
+  RegisterSuccess({required this.user});
 }
-class AuthError extends AuthState{
+
+class RegisterError extends AuthState {
   String error;
-  AuthError({required this.error});
+
+  RegisterError({required this.error});
+}
+
+class LoginLoading extends AuthState {}
+
+class LoginSuccess extends AuthState {
+  User user;
+
+  LoginSuccess(this.user);
+}
+
+class LoginError extends AuthState {
+  String error;
+
+  LoginError(this.error);
 }

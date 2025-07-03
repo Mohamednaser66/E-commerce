@@ -1,6 +1,8 @@
+import 'package:ecommerce_app/core/routes_manager/routes.dart';
 import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
 import 'package:ecommerce_app/features/auth/data/models/RegisterRequest.dart';
 import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -116,21 +118,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: SizedBox(
                     height: AppSize.s60.h,
                     width: MediaQuery.of(context).size.width * .9,
-                    child: CustomElevatedButton(
-                      // borderRadius: AppSize.s8,
-                      label: 'Sign Up',
-                      backgroundColor: ColorManager.white,
-                      textStyle: getBoldStyle(
-                          color: ColorManager.primary, fontSize: AppSize.s20),
-                      onTap: () {
-                        BlocProvider.of<AuthCubit>(context).register(
-                            RegisterRequest(
-                                name: _nameController.text,
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                                rePassword: _passwordController.text,
-                                phone: _phoneController.text));
+                    child: BlocListener<AuthCubit, AuthState>(
+                      listener: (context, state) {
+                        if (state is RegisterLoading) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          );
+                        } else if (state is RegisterError) {
+                          Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              content: Text(state.error),
+                            ),
+                          );
+                        } else if (state is RegisterSuccess) {
+                          Navigator.pop(context);
+                          Navigator.pushReplacementNamed(
+                              context, Routes.mainRoute);
+                        }
                       },
+                      child: CustomElevatedButton(
+                        // borderRadius: AppSize.s8,
+                        label: 'Sign Up',
+                        backgroundColor: ColorManager.white,
+                        textStyle: getBoldStyle(
+                            color: ColorManager.primary, fontSize: AppSize.s20),
+                        onTap: () {
+                          BlocProvider.of<AuthCubit>(context).register(
+                              RegisterRequest(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  rePassword: _passwordController.text,
+                                  phone: _phoneController.text));
+                        },
+                      ),
                     ),
                   ),
                 ),
