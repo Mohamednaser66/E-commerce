@@ -12,19 +12,19 @@
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
-import '../../features/auth/data/data_sources/local/auth_local_data_source.dart'
-    as _i485;
-import '../../features/auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart'
-    as _i277;
-import '../../features/auth/data/data_sources/remote/auth_api_remote_data_source.dart'
-    as _i112;
-import '../../features/auth/data/data_sources/remote/auth_remote_data_source.dart'
-    as _i432;
+import '../../features/auth/data/data_source/local_data_source/auth_local_data_source.dart'
+    as _i672;
+import '../../features/auth/data/data_source/local_data_source/auth_shared_prefs_data_source.dart'
+    as _i1049;
+import '../../features/auth/data/data_source/remote_data_source/auth_api_remote_data_source.dart'
+    as _i272;
+import '../../features/auth/data/data_source/remote_data_source/auth_remote_data_source.dart'
+    as _i885;
 import '../../features/auth/data/repositories/auth_repository_impl.dart'
     as _i153;
-import '../../features/auth/domain/repositories/auth_repository.dart' as _i787;
-import '../../features/auth/domain/usecases/auth_usecase.dart' as _i436;
-import '../../features/auth/presentation/cubit/auth_cubit.dart' as _i117;
+import '../../features/auth/domain/repository/auth_repository.dart' as _i961;
+import '../../features/auth/domain/use_case/auth_use_case.dart' as _i701;
+import '../../features/auth/presentation/auth_cubit.dart' as _i731;
 import '../../features/main_layout/categories/data/data_sources/categories_api_remote_data_source.dart'
     as _i1033;
 import '../../features/main_layout/categories/data/data_sources/categories_remote_data_source.dart'
@@ -53,21 +53,21 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i1033.CategoriesApiRemoteDataSource());
     gh.factory<_i347.CategoriesRepository>(
         () => _i662.CategoriesRepoImpl(gh<_i494.CategoriesRemoteDataSource>()));
-    gh.factory<_i485.AuthLocalDataSource>(
-        () => _i277.AuthSharedPrefsLocalDataSource());
-    gh.factory<_i432.AuthRemoteDataSource>(
-        () => _i112.AuthApiRemoteDataSource());
-    gh.factory<_i787.AuthRepository>(() => _i153.AuthRepositoryImpl(
-          gh<_i432.AuthRemoteDataSource>(),
-          gh<_i485.AuthLocalDataSource>(),
+    gh.factory<_i885.AuthRemoteDataSource>(
+        () => _i272.AuthApiRemoteDataSource());
+    gh.factory<_i672.AuthLocalDataSource>(
+        () => _i1049.AuthSharedPrefsDataSource());
+    gh.factory<_i961.AuthRepository>(() => _i153.AuthRepositoryImpl(
+          gh<_i885.AuthRemoteDataSource>(),
+          gh<_i672.AuthLocalDataSource>(),
         ));
     gh.factory<_i728.GetCategoriesUseCase>(
         () => _i728.GetCategoriesUseCase(gh<_i347.CategoriesRepository>()));
-    gh.factory<_i436.AuthUseCase>(
-        () => _i436.AuthUseCase(gh<_i787.AuthRepository>()));
     gh.factory<_i99.CategoriesCubit>(
         () => _i99.CategoriesCubit(gh<_i728.GetCategoriesUseCase>()));
-    gh.factory<_i117.AuthCubit>(() => _i117.AuthCubit(gh<_i436.AuthUseCase>()));
+    gh.factory<_i701.AuthUseCase>(
+        () => _i701.AuthUseCase(gh<_i961.AuthRepository>()));
+    gh.factory<_i731.AuthCubit>(() => _i731.AuthCubit(gh<_i701.AuthUseCase>()));
     return this;
   }
 }

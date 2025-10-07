@@ -1,10 +1,6 @@
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/routes_manager/routes.dart';
-import 'package:ecommerce_app/features/auth/data/data_sources/local/auth_shared_prefs_local_data_source.dart';
-import 'package:ecommerce_app/features/auth/data/data_sources/remote/auth_api_remote_data_source.dart';
-import 'package:ecommerce_app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:ecommerce_app/features/auth/domain/usecases/auth_usecase.dart';
-import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce_app/features/auth/presentation/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +10,7 @@ import 'core/routes_manager/route_generator.dart';
 void main() {
   configureDependencies();
   runApp(BlocProvider(
-      create: (context) => getIt<AuthCubit>(),
+      create: (context)=>getIt<AuthCubit>(),
       child: const MainApp()));
 }
 

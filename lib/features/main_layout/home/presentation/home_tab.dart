@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/features/main_layout/categories/presentation/categories_cubit/categories_cubit.dart';
 import 'package:ecommerce_app/features/main_layout/home/presentation/widgets/custom_category_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,7 +32,6 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     super.initState();
     _startImageSwitching();
-    categoriesCubit = getIt<CategoriesCubit>();
     categoriesCubit.loadCategories();
   }
 

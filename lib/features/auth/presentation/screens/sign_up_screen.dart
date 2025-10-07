@@ -1,7 +1,8 @@
 import 'package:ecommerce_app/core/routes_manager/routes.dart';
 import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
 import 'package:ecommerce_app/features/auth/data/models/RegisterRequest.dart';
-import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce_app/features/auth/presentation/auth_cubit.dart';
+import 'package:ecommerce_app/features/auth/presentation/auth_cubit_state/auyh_cubit_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,22 +24,18 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late final TextEditingController _nameController;
-
-  late final TextEditingController _phoneController;
-
-  late final TextEditingController _emailController;
-
-  late final TextEditingController _passwordController;
+  late TextEditingController _nameController;
+  late TextEditingController _phoneController;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     _nameController = TextEditingController();
     _phoneController = TextEditingController();
-    _emailController = TextEditingController();
     _passwordController = TextEditingController();
+    _emailController = TextEditingController();
   }
 
   @override
@@ -48,7 +45,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _phoneController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    super.dispose();
   }
 
   @override
@@ -118,29 +114,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: SizedBox(
                     height: AppSize.s60.h,
                     width: MediaQuery.of(context).size.width * .9,
-                    child: BlocListener<AuthCubit, AuthState>(
+                    child: BlocListener<AuthCubit,AuthState>(
                       listener: (context, state) {
-                        if (state is RegisterLoading) {
-                          showDialog(
-                            context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          );
-                        } else if (state is RegisterError) {
+                        if(state is RegisterLoadingState){
+                          showDialog(context: context, builder: (context) => CupertinoAlertDialog(
+                         content: Center(child:CircularProgressIndicator()),
+                          ),);
+                        }else if(state is RegisterErrorState){
                           Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => CupertinoAlertDialog(
-                              content: Text(state.error),
-                            ),
-                          );
-                        } else if (state is RegisterSuccess) {
+                          showDialog(context: context, builder: (context) => CupertinoAlertDialog(
+                            content: Text(state.errorMessage),
+                          ),);
+                        }else if(state is RegisterSuccessState){
                           Navigator.pop(context);
-                          Navigator.pushReplacementNamed(
-                              context, Routes.mainRoute);
+                          Navigator.pushReplacementNamed(context, Routes.mainRoute);
                         }
                       },
                       child: CustomElevatedButton(

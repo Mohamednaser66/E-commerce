@@ -1,10 +1,14 @@
+/// email : "ahmedmuttii54012@gmail.com"
+/// password : "Ahmed@123"
+
 class LoginRequest {
   LoginRequest({
-     required this.email,
+      required this.email,
       required this.password,});
 
-  final String email;
-  final String password;
+
+  String email;
+  String password;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -14,4 +18,3 @@ class LoginRequest {
   }
 
 }
-

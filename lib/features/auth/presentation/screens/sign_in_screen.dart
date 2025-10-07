@@ -6,7 +6,8 @@ import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
 import 'package:ecommerce_app/core/widget/main_text_field.dart';
 import 'package:ecommerce_app/core/widget/validators.dart';
 import 'package:ecommerce_app/features/auth/data/models/LoginRequest.dart';
-import 'package:ecommerce_app/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce_app/features/auth/presentation/auth_cubit.dart';
+import 'package:ecommerce_app/features/auth/presentation/auth_cubit_state/auyh_cubit_state.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +31,8 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
+    _passwordController =TextEditingController();
+    _emailController =TextEditingController();
   }
   @override
   void dispose() {
@@ -113,17 +114,15 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: SizedBox(
                     // width: MediaQuery.of(context).size.width * .8,
                     child: BlocListener<AuthCubit, AuthState>(
-                      listener: (context, state){
-                        if (state is LoginLoading) {
+                      listener: (context, state) {
+                        if (state is LoginLoadingState) {
                           showDialog(
                             context: context,
                             builder: (context) => CupertinoAlertDialog(
-                              content: Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                              content:Center(child: CircularProgressIndicator(),) ,
                             ),
                           );
-                        } else if (state is LoginError) {
+                        } else if (state is LoginErrorState) {
                           Navigator.pop(context);
                           showDialog(
                             context: context,
@@ -131,10 +130,9 @@ class _SignInScreenState extends State<SignInScreen> {
                               content: Text(state.error),
                             ),
                           );
-                        } else if (state is LoginSuccess) {
+                        }else if(state is LoginSuccessState){
                           Navigator.pop(context);
-                          Navigator.pushReplacementNamed(
-                              context, Routes.mainRoute);
+                          Navigator.pushReplacementNamed(context, Routes.mainRoute);
                         }
                       },
                       child: CustomElevatedButton(
@@ -145,8 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         textStyle: getBoldStyle(
                             color: ColorManager.primary, fontSize: AppSize.s18),
                         onTap: () {
-                         BlocProvider.of<AuthCubit>(context).login(LoginRequest(email: _emailController.text
-                             , password: _passwordController.text));
+                         BlocProvider.of<AuthCubit>(context).login(LoginRequest(email: _emailController.text, password: _passwordController.text));
                         },
                       ),
                     ),
