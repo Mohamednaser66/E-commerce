@@ -38,4 +38,9 @@ try{
 }
   }
 
+  @override
+Future<String?> getToken()async {
+   return await _localDataSource.getToken();
+  }
+
 }

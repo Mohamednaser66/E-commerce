@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/resources/assets_manager.dart';
 import 'package:ecommerce_app/core/resources/color_manager.dart';
 import 'package:ecommerce_app/core/resources/values_manager.dart';
@@ -28,12 +31,22 @@ class _SignInScreenState extends State<SignInScreen> {
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
   @override
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _passwordController =TextEditingController();
-    _emailController =TextEditingController();
+    _passwordController = TextEditingController();
+    _emailController = TextEditingController();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final token = await getIt<AuthCubit>().getToken();
+      log('Saved Token: $token');
+      if (token != null && token.isNotEmpty) {
+
+        Navigator.pushReplacementNamed(context, Routes.mainRoute);
+      }
+    });
   }
+
   @override
   void dispose() {
     // TODO: implement dispose

@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CategoryCardItem extends StatelessWidget {
-  final String title;
   final String image;
   final Function navigation;
 
-  const CategoryCardItem(this.title, this.image, this.navigation, {super.key});
+  const CategoryCardItem( this.image, this.navigation, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +41,6 @@ class CategoryCardItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       // Category title
-                      Text(
-                        title,
-                        style: getBoldStyle(
-                            color: ColorManager.textColor,
-                            fontSize: FontSize.s16.sp),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
                       // Shop Now button
                       SizedBox(
                         width: 110.w,

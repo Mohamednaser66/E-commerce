@@ -7,18 +7,19 @@ import 'package:flutter/material.dart';
 class CategoryItem extends StatelessWidget {
   final int index;
   final String title;
+  final String id;
 
   final bool isSelected;
-  final Function onItemClick;
+  final void Function(int,String) onItemClick;
 
-  const CategoryItem(this.index, this.title, this.isSelected, this.onItemClick,
+  const CategoryItem(this.index, this.title, this.isSelected, this.onItemClick, this.id,
       {super.key});
 
   @override
   Widget build(BuildContext context) {
     // Handle item click by calling onItemClick callback
     return InkWell(
-      onTap: () => onItemClick(index),
+      onTap: () => onItemClick(index,id),
       child: Container(
         // Set background color based on selection
         color: isSelected?ColorManager.white:Colors.transparent,

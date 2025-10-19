@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductDetails extends StatelessWidget {
   const ProductDetails({super.key});
+  final bool isClicked=false;
+ final  String id ='1';
 
   @override
   Widget build(BuildContext context) {
@@ -45,16 +47,22 @@ class ProductDetails extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 50.h),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const ProductSlider(items: [
+             ProductSlider(items: [
               ProductItem(
+
+                id:id ,
+
+
                 imageUrl:
                     'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
               ),
               ProductItem(
+                id: id,
                 imageUrl:
                     'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
               ),
               ProductItem(
+                id: id,
                 imageUrl:
                     "https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg",
               )

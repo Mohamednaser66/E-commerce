@@ -1,0 +1,38 @@
+
+import 'package:ecommerce_app/features/main_layout/home/domain/brand_domain/entities/brand_entity/BrandEntity.dart';
+
+/// _id : "64089fe824b25627a25315d1"
+/// name : "Canon"
+/// slug : "canon"
+/// image : "https://ecommerce.routemisr.com/Route-Academy-brands/1678286824747.png"
+/// createdAt : "2023-03-08T14:47:04.912Z"
+/// updatedAt : "2023-03-08T14:47:04.912Z"
+
+class Brand {
+  Brand({
+      this.id, 
+      this.name, 
+      this.slug, 
+      this.image, 
+      this.createdAt, 
+      this.updatedAt,});
+
+  Brand.fromJson(dynamic json) {
+    id = json['_id'];
+    name = json['name'];
+    slug = json['slug'];
+    image = json['image'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+  }
+  String? id;
+  String? name;
+  String? slug;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+
+BrandEntity toBrandEntity(){
+ return BrandEntity(image: image,name: name,id: id);
+}
+}

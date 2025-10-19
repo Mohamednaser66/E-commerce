@@ -16,4 +16,7 @@ class AuthUseCase{
  Future<Either<Failure,User>> invokeRegister(RegisterRequest request){
    return _repository.register(request);
  }
+Future<String?> getTokenUseCase()async{
+ return  await _repository.getToken();
+ }
 }

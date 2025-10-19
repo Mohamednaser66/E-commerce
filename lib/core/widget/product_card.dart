@@ -38,13 +38,13 @@ class ProductCard extends StatelessWidget {
       width: 200.w,
       height: 280.h,
       child: Container(
-        width: 280,
+        width: 280.w,
         margin: EdgeInsets.all(6.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
           color: Colors.white,
           border: Border.all(
-            width: 1,
+            width: 1.w,
             color: ColorManager.primary.withOpacity(0.8),
           ),
         ),
@@ -191,7 +191,7 @@ class ProductCard extends StatelessWidget {
                           child: Icon(
                             Icons.add_circle_rounded,
                             color: ColorManager.primary,
-                            size: 36,
+                            size: 30,
                           ),
                         ),
                       ],

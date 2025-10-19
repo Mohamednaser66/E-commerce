@@ -10,18 +10,16 @@ class AuthCubit extends Cubit<AuthState>{
   AuthCubit( this._useCase):super(InitialState());
   AuthUseCase _useCase;
  register(RegisterRequest request)async{
-    try{
+
       emit(RegisterLoadingState());
      var  result = await _useCase.invokeRegister(request);
     result.fold((failure) {
-      emit(RegisterErrorState(errorMessage: failure.message));
-    }, (user) {
-      emit(RegisterSuccessState(user: user));
-    },);
-    }
-    catch(error){
-emit(RegisterErrorState(errorMessage: error.toString()));
-    }
+        emit(RegisterErrorState(errorMessage: failure.message));
+      }, (user) {
+       emit(RegisterSuccessState(user: user));
+     }
+    ,);
+
   }
   login(LoginRequest request)async{
     
@@ -32,6 +30,10 @@ emit(RegisterErrorState(errorMessage: error.toString()));
     }, (user) {
       emit(LoginSuccessState(user: user));
     },);
+  }
+  Future<String?> getToken(){
+  return _useCase.getTokenUseCase();
+
   }
 
 }

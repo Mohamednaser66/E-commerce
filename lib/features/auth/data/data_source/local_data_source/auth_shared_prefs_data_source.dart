@@ -6,7 +6,7 @@ import '../../../../../core/resources/constants_manager.dart';
 @Injectable(as:AuthLocalDataSource )
 class AuthSharedPrefsDataSource implements AuthLocalDataSource{
   @override
-  Future<String> getToken()async {
+  Future<String?> getToken()async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
    return  prefs.getString(CacheConstant.token)!;
   }
