@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/features/auth/data/models/LoginRequest.dart';
 import 'package:ecommerce_app/features/auth/data/models/RegisterRequest.dart';
+import 'package:ecommerce_app/features/auth/data/models/User.dart';
 import 'package:ecommerce_app/features/auth/domain/use_case/auth_use_case.dart';
 import 'package:ecommerce_app/features/auth/presentation/auth_cubit_state/auyh_cubit_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,9 +32,12 @@ class AuthCubit extends Cubit<AuthState>{
       emit(LoginSuccessState(user: user));
     },);
   }
-  Future<String?> getToken(){
-  return _useCase.getTokenUseCase();
+  Future<String?> getToken()async{
+  return await _useCase.getTokenUseCase();
 
+  }
+  Future<User>getUser()async{
+   return await _useCase.getUser();
   }
 
 }

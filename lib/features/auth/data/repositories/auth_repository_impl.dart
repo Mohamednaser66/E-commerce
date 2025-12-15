@@ -19,7 +19,8 @@ import 'package:injectable/injectable.dart';
   Future<Either<Failure,User>> login(LoginRequest request)async {
  try{
    final response=await _remoteDataSource.login(request);
-   _localDataSource.getToken();
+   _localDataSource.saveToken(response.token);
+   _localDataSource.saveUser(response.user);
    return right(response.user);
 
  }on AppException catch(exception){
@@ -31,6 +32,7 @@ import 'package:injectable/injectable.dart';
   Future<Either<Failure,User>> register(RegisterRequest request) async{
 try{
   final response =await _remoteDataSource.register(request);
+  _localDataSource.saveUser(response.user);
   _localDataSource.saveToken(response.token);
   return   right(response.user);
 }on AppException catch(exception){
@@ -41,6 +43,9 @@ try{
   @override
 Future<String?> getToken()async {
    return await _localDataSource.getToken();
+  }
+  Future<User>getUser()async{
+     return await _localDataSource.getUser();
   }
 
 }

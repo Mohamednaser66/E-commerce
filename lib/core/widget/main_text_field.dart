@@ -56,7 +56,7 @@ class BuildTextField extends StatefulWidget {
 
 class _BuildTextFieldState extends State<BuildTextField> {
   late bool hidden = widget.isObscured;
-  String? errorText;
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +85,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
           ),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           child: TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
             maxLines: widget.maxLines ?? 1,
             controller: widget.controller,
             focusNode: widget.focusNode,
@@ -105,18 +106,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
             textInputAction: widget.nextFocus == null
                 ? TextInputAction.done
                 : TextInputAction.next,
-            validator: (value) {
-              if (widget.validation == null) {
-                setState(() {
-                  errorText = null;
-                });
-              } else {
-                setState(() {
-                  errorText = widget.validation!(value);
-                });
-              }
-              return errorText;
-            },
+            validator: widget.validation,
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.all(AppPadding.p12),
               hintText: widget.hint,
@@ -150,19 +140,7 @@ class _BuildTextFieldState extends State<BuildTextField> {
             ),
           ),
         ),
-        errorText == null
-            ? const SizedBox()
-            : Padding(
-                padding: const EdgeInsets.only(
-                  top: AppPadding.p8,
-                  left: AppPadding.p8,
-                ),
-                child: Text(
-                  errorText!,
-                  style: getMediumStyle(color: ColorManager.white)
-                      .copyWith(fontSize: 18.sp),
-                ),
-              ),
+
       ],
     );
   }

@@ -65,9 +65,12 @@ abstract class ApiConstant{
   static const String brands = "brands";
   static const String products = "products";
   static const String cart = "cart";
+  static const String updateUser = "users/updateMe/";
+  static  String updateCartCount(String productId) => "cart/$productId";
   static const String wishList = "wishlist";
   static  String deleteWishList(String productId) => "wishlist/$productId";
   static  String subCategory(String categoryId) => "categories/$categoryId/subcategories";
+
 }
 
 abstract class CacheConstant{

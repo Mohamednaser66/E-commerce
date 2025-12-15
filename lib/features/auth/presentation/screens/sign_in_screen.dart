@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/resources/assets_manager.dart';
@@ -39,9 +38,8 @@ class _SignInScreenState extends State<SignInScreen> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final token = await getIt<AuthCubit>().getToken();
-      log('Saved Token: $token');
-      if (token != null && token.isNotEmpty) {
-
+      if(token!=null&&token.isNotEmpty){
+        print('token ====$token');
         Navigator.pushReplacementNamed(context, Routes.mainRoute);
       }
     });
@@ -145,6 +143,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           );
                         }else if(state is LoginSuccessState){
                           Navigator.pop(context);
+
                           Navigator.pushReplacementNamed(context, Routes.mainRoute);
                         }
                       },

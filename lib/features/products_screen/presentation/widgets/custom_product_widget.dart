@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/resources/color_manager.dart';
 import 'package:ecommerce_app/core/resources/styles_manager.dart';
@@ -46,7 +47,7 @@ class _CustomProductWidgetState extends State<CustomProductWidget> {
   @override
   Widget build(BuildContext context) {
   return  InkWell(
-        onTap: () => Navigator.pushNamed(context, Routes.productDetails),
+        onTap: () => Navigator.pushNamed(context, Routes.productDetails,arguments: widget.product),
         child: Container(
           width: 190.w,
           height: 260.h,
@@ -65,27 +66,22 @@ class _CustomProductWidgetState extends State<CustomProductWidget> {
                 child: Stack(
                   alignment: AlignmentDirectional.center,
                   children: [
-                    // CachedNetworkImage(
-                    //   imageUrl: product.imageCover??'',
-                    //   height: 128.h,
-                    //   width: double.infinity,
-                    //   fit: BoxFit.cover,
-                    //   placeholder: (context, url) =>
-                    //       const Center(child: CircularProgressIndicator()),
-                    //   errorWidget: (context, url, error) => const Icon(Icons.error),
-                    // ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15.r),
-                          topRight: Radius.circular(15.r)),
-                      child: Image.network(
-                        width: double.infinity,
-                        widget.product.imageCover ?? '',
-                        fit: BoxFit.cover,
-                      ),
+                    CachedNetworkImage(
+                      imageUrl: widget.product.imageCover??'',
+                      height: 128.h,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
 
                     BlocConsumer<WishListCubit, WishListState>(
+                      buildWhen: (previous, current) {
+                        if(current is EditWishListError||current is EditWishListLoading||current is EditWishListSuccess){
+                          return true;
+                        }return false;
+                      },
   listener: (context, state) {
     if(state is EditWishListSuccess){
      ToastMessage.showToastMessage('successful operation', ColorManager.white);
@@ -191,7 +187,12 @@ class _CustomProductWidgetState extends State<CustomProductWidget> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(100),
                             child:
-                                BlocConsumer<CartProductViewModel, CartState>(
+                                BlocConsumer<CartProductViewModel, AddCartState>(
+                                  buildWhen: (previous, current) {
+                                    if(current is AddCartSuccessState||current is AddToCartLoadingState||current is  AddCartErrorState){
+                                      return true;
+                                    }return false;
+                                  },
                                     listener: (context, state) {
                               if (state is AddCartSuccessState ) {
                                 ToastMessage.showToastMessage(state.cartEntity.message??'',ColorManager.black);
@@ -202,7 +203,6 @@ class _CustomProductWidgetState extends State<CustomProductWidget> {
                              var cubit = context.read<CartProductViewModel>();
                               return InkWell(
                                 onTap: () {
-
                                BlocProvider.of<CartProductViewModel>(context).AddToCart(widget.product.id??'');
                                 },
                                 child: Container(
@@ -212,16 +212,13 @@ class _CustomProductWidgetState extends State<CustomProductWidget> {
                                     shape: BoxShape.circle,
                                     color: ColorManager.primary,
                                   ),
-                                  child: state is AddToCartLoadingState&& cubit.currentId==widget.product.id
-                                      ? Center(
-                                          child: CircularProgressIndicator(
-                                            color: Colors.white,
-                                          ),
-                                        )
-                                      : Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                        ),
+                                  child: state is AddToCartLoadingState && cubit.currentId == widget.product.id
+                                ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                                      : Icon(Icons.add, color: Colors.white),
                                 ),
                               );
                             }),

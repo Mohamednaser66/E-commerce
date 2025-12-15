@@ -45,7 +45,7 @@ class Cart {
 
 
 
-  GetCartEntity toCartProduct(){
+  GetCartEntity toCartProductEntity(){
   return GetCartEntity(id: id, products: products, totalCartPrice: totalCartPrice);
 }
 }

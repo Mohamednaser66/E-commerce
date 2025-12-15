@@ -19,4 +19,7 @@ class AuthUseCase{
 Future<String?> getTokenUseCase()async{
  return  await _repository.getToken();
  }
+ Future<User>getUser()async{
+  return await _repository.getUser();
+ }
 }

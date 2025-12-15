@@ -3,7 +3,7 @@ import 'package:ecommerce_app/features/product_details/presentation/cart_product
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 @injectable
-class CartProductViewModel extends Cubit<CartState>{
+class CartProductViewModel extends Cubit<AddCartState>{
   @factoryMethod
   CartProductViewModel(this._useCase) : super(AddCartInitialState());
 AddToCartUseCase _useCase;

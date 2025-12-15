@@ -33,8 +33,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void initState() {
     // TODO: implement initState
     _nameController = TextEditingController();
-    _phoneController = TextEditingController();
-    _passwordController = TextEditingController();
     _emailController = TextEditingController();
   }
 
@@ -42,9 +40,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     // TODO: implement dispose
     _nameController.dispose();
-    _phoneController.dispose();
     _emailController.dispose();
-    _passwordController.dispose();
+    super.dispose();
+  }
+  loadData(){
+
   }
 
   @override

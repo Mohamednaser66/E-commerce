@@ -8,4 +8,5 @@ abstract class AuthRepository{
   Future<Either<Failure,User>> login(LoginRequest request);
   Future<Either<Failure,User>> register(RegisterRequest request);
   Future<String?> getToken();
+  Future<User>getUser();
 }

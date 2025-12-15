@@ -85,7 +85,7 @@ class _HomeTabState extends State<HomeTab> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return  InkWell(onTap: (){
-                            Navigator.pushNamed(context, Routes.productDetails,arguments: state.categories[index].id);
+                            Navigator.pushNamed(context, Routes.productsScreenRoute);
                           },
                               child: CustomCategoryWidget(category: state.categories[index]));
                         },

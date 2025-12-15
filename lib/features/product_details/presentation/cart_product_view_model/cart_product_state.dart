@@ -1,15 +1,15 @@
 import 'package:ecommerce_app/features/product_details/domain/entity/add_cart_entity/AddCartEntity.dart';
 import 'package:ecommerce_app/features/product_details/domain/entity/add_cart_entity/cart_entity.dart';
 
-sealed class CartState{}
-class AddCartInitialState extends CartState{}
-class AddToCartLoadingState extends CartState{}
-class AddCartErrorState extends CartState{
+ class AddCartState{}
+class AddCartInitialState extends AddCartState{}
+class AddToCartLoadingState extends AddCartState{}
+class AddCartErrorState extends AddCartState{
 String errorMessage;
 AddCartErrorState({required this.errorMessage});
 
 }
-class AddCartSuccessState extends CartState{
+class AddCartSuccessState extends AddCartState{
   AddCartEntity cartEntity;
   AddCartSuccessState({required this.cartEntity});
 }

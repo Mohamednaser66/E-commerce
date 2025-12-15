@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class ToastMessage{
  static showToastMessage(String message,Color textColor){
+   if (message == null || message.trim().isEmpty) return;
     Fluttertoast.showToast(
         msg: message,
         toastLength: Toast.LENGTH_SHORT,

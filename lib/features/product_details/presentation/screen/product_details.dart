@@ -1,22 +1,26 @@
-import 'package:ecommerce_app/core/resources/assets_manager.dart';
 import 'package:ecommerce_app/core/resources/color_manager.dart';
 import 'package:ecommerce_app/core/resources/styles_manager.dart';
+import 'package:ecommerce_app/core/routes_manager/routes.dart';
 import 'package:ecommerce_app/core/widget/custom_elevated_button.dart';
+import 'package:ecommerce_app/features/cart/presentation/cart_cubit/cart_cubit.dart';
+import 'package:ecommerce_app/features/product_details/presentation/cart_product_view_model/cart_product_view_model.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_color.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_description.dart';
-import 'package:ecommerce_app/features/product_details/presentation/widgets/product_item.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_label.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_rating.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_size.dart';
 import 'package:ecommerce_app/features/product_details/presentation/widgets/product_slider.dart';
+import 'package:ecommerce_app/features/products_screen/domain/entity/ProductEntity.dart';
+import 'package:ecommerce_app/features/products_screen/presentation/widgets/toast_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ecommerce_app/features/product_details/presentation/cart_product_view_model/cart_product_state.dart';
+
 
 class ProductDetails extends StatelessWidget {
-  const ProductDetails({super.key});
-  final bool isClicked=false;
- final  String id ='1';
-
+  const ProductDetails({super.key,required this.product});
+final ProductEntity product;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +33,9 @@ class ProductDetails extends StatelessWidget {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
-              icon: ImageIcon(
-                AssetImage(IconsAssets.icSearch),
-                color: ColorManager.primary,
-              )),
-          IconButton(
-              onPressed: () {},
+              onPressed: () {
+                  Navigator.pushNamed(context, Routes.cartRoute);
+              },
               icon: Icon(
                 Icons.shopping_cart_outlined,
                 color: ColorManager.primary,
@@ -47,44 +47,25 @@ class ProductDetails extends StatelessWidget {
           padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 50.h),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-             ProductSlider(items: [
-              ProductItem(
-
-                id:id ,
-
-
-                imageUrl:
-                    'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
-              ),
-              ProductItem(
-                id: id,
-                imageUrl:
-                    'https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg',
-              ),
-              ProductItem(
-                id: id,
-                imageUrl:
-                    "https://assets.adidas.com/images/w_1880,f_auto,q_auto/6776024790f445b0873ee66fdcde54a1_9366/GX6544_HM3_hover.jpg",
-              )
-            ], initialIndex: 0),
+             ProductSlider(images: product.images!,id: product.id??'',),
             SizedBox(
               height: 24.h,
             ),
-            const ProductLabel(
-                productName: 'Nike Air Jordon', productPrice: 'EGP 3,500'),
+             ProductLabel(
+                productName: product.title??'', productPrice: 'EGP ${product.price}'),
             SizedBox(
               height: 16.h,
             ),
-            const ProductRating(
-                productBuyers: '3,230', productRating: '4.8 (7,500)'),
+             ProductRating(
+                productBuyers: '${product.sold}', productRating: '${product.ratingsQuantity}'),
             SizedBox(
               height: 16.h,
             ),
-            const ProductDescription(
+             ProductDescription(
                 productDescription:
-                    'Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel, and accessories'),
+                    '${product.description}'),
             ProductSize(
-              size: const [35, 38, 39, 40],
+              size:  [35, 38, 39, 40],
               onSelected: () {},
             ),
             SizedBox(
@@ -115,7 +96,7 @@ class ProductDetails extends StatelessWidget {
                     SizedBox(
                       height: 12.h,
                     ),
-                    Text('EGP 3,500',
+                    Text('EGP ${product.price}',
                         style:
                             getMediumStyle(color: ColorManager.appBarTitleColor)
                                 .copyWith(fontSize: 18.sp))
@@ -124,15 +105,24 @@ class ProductDetails extends StatelessWidget {
                 SizedBox(
                   width: 33.w,
                 ),
-                Expanded(
+                BlocListener<CartProductViewModel,AddCartState>(
+                  listener: (context, state) {
+                if(state is AddCartErrorState){
+                  ToastMessage.showToastMessage(state.errorMessage, ColorManager.black);
+                }if(state is AddCartSuccessState){
+                  ToastMessage.showToastMessage('Added Successfully', ColorManager.primary);
+                }
+                    },
                   child: CustomElevatedButton(
-                    label: 'Add to cart',
-                    onTap: () {},
-                    prefixIcon: Icon(
-                      Icons.add_shopping_cart_outlined,
-                      color: ColorManager.white,
-                    ),
+                  label: 'Add to cart',
+                  onTap: () {
+                    context.read<CartProductViewModel>().AddToCart(product.id??'');
+                  },
+                  prefixIcon: Icon(
+                    Icons.add_shopping_cart_outlined,
+                    color: ColorManager.white,
                   ),
+                ),
                 )
               ],
             )

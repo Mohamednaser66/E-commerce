@@ -79,7 +79,7 @@ class _CategoriesTabState extends State<CategoriesTab> {
         }if(state is CategoryErrorState){
           return Center(child: Text(state.errorMessage,style: TextStyle(color: ColorManager.black),),);
         }
-        return Center(child: CircularProgressIndicator(color: ColorManager.black,),);
+        return Center(child: CircularProgressIndicator(color: ColorManager.primary,),);
 
       }
       ),

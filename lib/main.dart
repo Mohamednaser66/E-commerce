@@ -1,7 +1,9 @@
 import 'package:ecommerce_app/core/di/di.dart';
 import 'package:ecommerce_app/core/routes_manager/routes.dart';
 import 'package:ecommerce_app/features/auth/presentation/auth_cubit.dart';
+import 'package:ecommerce_app/features/cart/presentation/cart_cubit/cart_cubit.dart';
 import 'package:ecommerce_app/features/main_layout/favourite/presentation/wish_list_view_model/wish_list_cubit.dart';
+import 'package:ecommerce_app/features/main_layout/home/presentation/home_cubit/main_lay_out_cubit.dart';
 import 'package:ecommerce_app/features/product_details/presentation/cart_product_view_model/cart_product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +16,12 @@ void main() {
 
   runApp(MultiBlocProvider(
       providers: [BlocProvider(create: (context)=>getIt<AuthCubit>()),
-  BlocProvider(create: (_) => getIt<WishListCubit>()..getWishList()),
+  BlocProvider(create: (context) => getIt<MainLayoutCubit>()),
   BlocProvider(create: (_) => getIt<CartProductViewModel>()),
+  BlocProvider(
+  create: (context) => getIt<CartCubit>()..getCartProduct()),
+  BlocProvider(
+  create: (context) => getIt<WishListCubit>()),
         
     ]
 

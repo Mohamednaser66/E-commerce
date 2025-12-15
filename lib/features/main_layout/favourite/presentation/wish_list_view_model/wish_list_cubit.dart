@@ -10,6 +10,7 @@ class WishListCubit extends Cubit<WishListState> {
  final WishListUseCase _useCase;
  List<ProductEntity> products =[];
  String? loadingProductId;
+
   @factoryMethod
   WishListCubit(this._useCase) : super(WishListInitial());
   getWishList()async{
@@ -50,15 +51,15 @@ class WishListCubit extends Cubit<WishListState> {
   },);
 
  }
- cheekIsFav(String productId,){
+bool cheekIsFav(String productId,){
    return products.any((element) => element.id==productId,);
 
 }
-editWishList(String productId,bool isFav){
-  if(isFav){
-  return  removeFromWishList(productId);
-  }else{
-    return addToWishList(productId);
-  }
-}
+ editWishList(String productId, bool isFav) {
+   if (isFav==true) {
+     return addToWishList(productId);
+   } else if(isFav ==false){
+     return removeFromWishList(productId);
+   }
+ }
 }

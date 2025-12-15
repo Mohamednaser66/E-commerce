@@ -1,7 +1,5 @@
 import 'package:ecommerce_app/core/resources/assets_manager.dart';
 import 'package:ecommerce_app/core/resources/color_manager.dart';
-import 'package:ecommerce_app/core/resources/font_manager.dart';
-import 'package:ecommerce_app/core/resources/styles_manager.dart';
 import 'package:ecommerce_app/core/resources/values_manager.dart';
 import 'package:ecommerce_app/features/main_layout/categories/presentation/widgets/category_card_item.dart';
 import 'package:ecommerce_app/features/main_layout/home/presentation/home_cubit/main_lay_out_cubit.dart';
@@ -33,7 +31,6 @@ class SubCategoriesList extends StatelessWidget {
                   child: CategoryCardItem(
                       ImageAssets.categoryCardImage, goToCategoryProductsListScreen),
                 ),
-                // the grid view of the subcategories
                 SliverGrid(
                     delegate: SliverChildBuilderDelegate(
                       childCount: state.subCategories.length,
@@ -52,7 +49,7 @@ class SubCategoriesList extends StatelessWidget {
           }   if(state is SubCategoryErrorState){
             return Center(child: Text(state.errorMessage),);
           }
-          return Center(child:CircularProgressIndicator() ,);
+          return Center(child:CircularProgressIndicator(color: ColorManager.primary,) ,);
 
           }
 

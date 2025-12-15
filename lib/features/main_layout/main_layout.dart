@@ -7,6 +7,7 @@ import 'package:ecommerce_app/features/main_layout/favourite/presentation/favour
 import 'package:ecommerce_app/features/main_layout/favourite/presentation/wish_list_view_model/wish_list_cubit.dart';
 import 'package:ecommerce_app/features/main_layout/home/presentation/home_cubit/main_lay_out_cubit.dart';
 import 'package:ecommerce_app/features/main_layout/profile_tab/presentation/profile_tab.dart';
+import 'package:ecommerce_app/features/main_layout/profile_tab/presentation/update_user_cubit.dart';
 import 'package:ecommerce_app/features/product_details/presentation/cart_product_view_model/cart_product_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,9 +32,8 @@ class _MainLayoutState extends State<MainLayout> {
   ];
   @override
   Widget build(BuildContext context) {
-    return  MultiBlocProvider(
-        providers:[BlocProvider(create: (context) => getIt<MainLayoutCubit>()),
-        ] ,
+    return  BlocProvider(
+        create: (context) => getIt<ProfileCubit>(),
     child:Scaffold(
       appBar: const HomeScreenAppBar(),
       extendBody: false,
@@ -60,8 +60,8 @@ class _MainLayoutState extends State<MainLayout> {
           ],
         ),
       ),
-    )
-    );
+
+    )  );
 
   }
 
@@ -89,10 +89,10 @@ class CustomBottomNavBarItem extends BottomNavigationBarItem {
             child: ImageIcon(
               AssetImage(iconPath),
               color: ColorManager
-                  .primary, // Active icon imagecolor: ColorManager.primary, // Active icon color
+                  .primary,
             ),
           ),
 
-        );
+    );
 
 }
