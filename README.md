@@ -110,10 +110,3 @@ lib/
   
   fluttertoast: ^9.0.0
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints:
-  injectable_generator:
-    # add build runner if not already added
-  build_runner:
