@@ -12,20 +12,20 @@ class CartResponse {
       this.status, 
       this.numOfCartItems, 
       this.cartId, 
-      this.data,});
+      this.cart,});
 
   CartResponse.fromJson(dynamic json) {
     status = json['status'];
     numOfCartItems = json['numOfCartItems'];
     cartId = json['cartId'];
-    data = json['data'] != null ? Cart.fromJson(json['data']) : null;
+    cart = json['data'] != null ? Cart.fromJson(json['data']) : null;
   }
   String? status;
   int? numOfCartItems;
   String? cartId;
-  Cart? data;
+  Cart? cart;
 
   CartResponseEntity toCartResponseEntity(){
-  return CartResponseEntity(data: data, status: status, cartId: cartId);
+  return CartResponseEntity(data: cart, status: status, cartId: cartId);
 }
 }

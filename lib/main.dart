@@ -18,14 +18,14 @@ void main() {
       providers: [BlocProvider(create: (context)=>getIt<AuthCubit>()),
   BlocProvider(create: (context) => getIt<MainLayoutCubit>()),
   BlocProvider(create: (_) => getIt<CartProductViewModel>()),
+
   BlocProvider(
   create: (context) => getIt<CartCubit>()..getCartProduct()),
   BlocProvider(
   create: (context) => getIt<WishListCubit>()),
         
     ]
-
-    ,  child: const MainApp()));
+      ,  child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {

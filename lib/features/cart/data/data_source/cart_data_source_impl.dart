@@ -4,6 +4,7 @@ import 'package:ecommerce_app/core/error/exception.dart';
 import 'package:ecommerce_app/core/resources/constants_manager.dart';
 import 'package:ecommerce_app/features/auth/presentation/auth_cubit.dart';
 import 'package:ecommerce_app/features/cart/data/models/CartResponse.dart';
+import 'package:ecommerce_app/features/cart/data/models/CheckOutResponse.dart';
 import 'package:injectable/injectable.dart';
 
 import 'cart_data_source.dart';
@@ -61,5 +62,18 @@ class CartDataSourceImpl implements CartDataSource {
      throw RemoteException(exception.response?.data["message"]);
    }
  }
+
+  @override
+  Future<CheckOutResponse> checkOut(String cardId) async{
+    final token = await getIt<AuthCubit>().getToken();
+    try{
+    final  response =await _dio.post(ApiConstant.checkOut(cardId),options: Options(headers: {CacheConstant.token:token}));
+    return CheckOutResponse.fromJson(response.data);
+    }on DioException catch(exception){
+      throw RemoteException(exception.response?.data['message']);
+    }
+
+
+  }
 
 }

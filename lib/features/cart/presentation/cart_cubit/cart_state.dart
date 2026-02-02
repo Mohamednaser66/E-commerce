@@ -34,3 +34,12 @@ final class RemoveSpecificError extends CartState {
   String? message;
   RemoveSpecificError({required this.message});
 }
+final class CheckOutLoading extends CartState {}
+final class CheckOutSuccess extends CartState {
+  CheckOutResponse response;
+  CheckOutSuccess({required this.response});
+}
+final class CheckOutError extends CartState {
+  String? message;
+  CheckOutError({required this.message});
+}

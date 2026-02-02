@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/core/error/exception.dart';
 import 'package:ecommerce_app/core/error/failure.dart';
+import 'package:ecommerce_app/features/cart/data/models/CheckOutResponse.dart';
 import 'package:ecommerce_app/features/cart/domain/entity/get_cart_response_entity.dart';
 import 'package:ecommerce_app/features/cart/domain/repository/cart_repo.dart';
 import 'package:injectable/injectable.dart';
@@ -50,6 +51,16 @@ class CartRepositoryImpl implements CartRepo{
   }on AppException catch(exception){
     return Left(Failure(exception.message));
   }
+  }
+
+  @override
+  Future<Either<Failure, CheckOutResponse>> checkOut(String cartId)async {
+try{
+final response = await _cartDataSource.checkOut(cartId);
+return Right(response);
+}on AppException catch(exception){
+  return Left(Failure(exception.message));
+}
   }
 
 }

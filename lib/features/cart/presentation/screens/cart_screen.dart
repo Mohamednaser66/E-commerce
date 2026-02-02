@@ -19,8 +19,8 @@ class CartScreen extends StatefulWidget {
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
-
 class _CartScreenState extends State<CartScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,20 +62,13 @@ class _CartScreenState extends State<CartScreen> {
               child: Column(
                 children: [
                   Expanded(
-                    // the list of cart items ===============
                     child: ListView.separated(
                       itemBuilder: (context, index) =>
                           CartItemWidget(
-                            id: state.cartEntity.products?[index].product?.id??'',
-                            imagePath:state.cartEntity.products?[index].product?.imageCover??'' ,
-                            title: state.cartEntity.products?[index].product?.title??'',
-                            price: state.cartEntity.products?[index].price??0,
-                            quantity: state.cartEntity.products?[index].count??0,
+                          product: state.cartEntity.products![index],
                             onDeleteTap: () {
                                 context.read<CartCubit>().removeSpecificProduct(state.cartEntity.products?[index].product?.id??'');
                             },
-                            onDecrementTap: (value) {},
-                            onIncrementTap: (value) {},
                             size: 40,
                             color: Colors.black,
                             colorName: 'black',
@@ -86,11 +79,9 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                   // the total price and checkout button========
-                  TotalPriceAndCheckoutBotton(
+                  TotalPriceAndCheckoutButton(
                     totalPrice: state.cartEntity.totalCartPrice??0,
-                    checkoutButtonOnTap: () {
-                        context.read<CartCubit>().clearCart();
-                    },
+                      cartId: state.cartEntity.id??'',
                   ),
                   SizedBox(height: 10.h),
                 ],

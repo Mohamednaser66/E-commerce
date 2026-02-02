@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:ecommerce_app/features/cart/data/models/CheckOutResponse.dart';
 import 'package:ecommerce_app/features/cart/domain/usee_case/cart_use_case.dart';
 import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../domain/entity/get_cart_entity.dart';
 
@@ -57,5 +59,23 @@ class CartCubit extends Cubit<CartState> {
     emit(RemoveSpecificSuccess());
   },);
   }
+checkOut(String cartId)async{
+    emit(CheckOutLoading());
+    var result = await _useCase.checkOut(cartId);
+    result.fold((l) {
+      emit(CheckOutError(message: l.message));
+    }, (r) {
+      emit(CheckOutSuccess(response: r));
+    },);
+}
+  launchMyUrl(String url) async {
+    final uri = Uri.parse(url);
 
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
 }
