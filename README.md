@@ -13,7 +13,7 @@
 
 # E-Commerce_app
 A modern E-Commerce mobile application built using Flutter & Dart, following Clean Architecture and MVVM principles.
-The app provides a smooth shopping experience with authentication, product browsing, wishlist, cart, and order management.
+The app provides a smooth shopping experience with authentication, product browsing, wishlist, cart, and order management and Payment by Card.
 # Features
 🔐 User Authentication (Login / Register)
 
