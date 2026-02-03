@@ -21,13 +21,8 @@ class TotalPriceAndCheckoutButton extends StatefulWidget {
 }
 
 class _TotalPriceAndCheckoutButtonState extends State<TotalPriceAndCheckoutButton> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
 
-    context.read<CartCubit>().getCartProduct();
-  }
+
   @override
   Widget build(BuildContext context) {
     return Row(

@@ -59,7 +59,7 @@ class CartCubit extends Cubit<CartState> {
     emit(RemoveSpecificSuccess());
   },);
   }
-checkOut(String cartId)async{
+  checkOut(String cartId)async{
     emit(CheckOutLoading());
     var result = await _useCase.checkOut(cartId);
     result.fold((l) {
