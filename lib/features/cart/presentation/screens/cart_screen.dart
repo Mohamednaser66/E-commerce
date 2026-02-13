@@ -32,24 +32,6 @@ class _CartScreenState extends State<CartScreen> {
           style: getMediumStyle(fontSize: 20, color: ColorManager.textColor),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: ImageIcon(
-              AssetImage(
-                IconsAssets.icSearch,
-              ),
-              color: ColorManager.primary,
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: ImageIcon(
-              AssetImage(IconsAssets.icCart),
-              color: ColorManager.primary,
-            ),
-          ),
-        ],
       ),
       body: BlocBuilder<CartCubit, CartState>(
         buildWhen:(previous, current) {
