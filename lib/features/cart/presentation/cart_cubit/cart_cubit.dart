@@ -73,7 +73,7 @@ class CartCubit extends Cubit<CartState> {
 
     if (!await launchUrl(
       uri,
-      mode: LaunchMode.externalApplication,
+      mode: LaunchMode.inAppWebView,
     )) {
       throw Exception('Could not launch $url');
     }
